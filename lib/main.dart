@@ -15,8 +15,7 @@ class MyHomePage extends StatelessWidget {
     Transaction(
       id: 't1',
       title: 'novo tenis de corrida',
-      value: 310,
-      76,
+      value: 310.76,
       date: DateTime.now(),
     ),
     Transaction(
@@ -45,8 +44,12 @@ class MyHomePage extends StatelessWidget {
               child: Text('Grafico'),
             ),
           ),
-          const Card(
-            child: Text('Lista de Transações'),
+          Column(
+            children: _transaction.map((tr) {
+              return Card(
+                child: Text(tr.title),
+              );
+            }).toList(),
           ),
         ],
       ),
