@@ -29,6 +29,66 @@ class _TransactionUserState extends State<TransactionUser> {
       value: 670.89,
       date: DateTime.now(),
     ),
+    Transaction(
+      id: 't3',
+      title: 'Conta diversas 3',
+      value: 670.89,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't4',
+      title: 'Conta diversas4',
+      value: 670.89,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't5',
+      title: 'Conta diversas5',
+      value: 670.89,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't6',
+      title: 'Conta diversas6',
+      value: 670.89,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't7',
+      title: 'Conta diversas 7',
+      value: 670.89,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't8',
+      title: 'Conta diversas 8',
+      value: 670.89,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't9',
+      title: 'Conta diversas 9',
+      value: 670.89,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't10',
+      title: 'Conta diversas 10',
+      value: 670.89,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't11',
+      title: 'Conta diversas 11',
+      value: 670.89,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't12',
+      title: 'Conta diversas 12',
+      value: 670.89,
+      date: DateTime.now(),
+    ),
   ];
 
   _addTransaction(String title, double value) {
@@ -39,20 +99,17 @@ class _TransactionUserState extends State<TransactionUser> {
       date: DateTime.now(),
     );
 
-    @override
-    void setState(VoidCallback fn) {
-      // TODO: implement setState
-      super.setState(fn);
+    setState(() {
       _transaction.add(newTransaction);
-    }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        TransactionForm(_addTransaction),
         Transaction_list(_transaction),
-        TransactionForm(),
       ],
     );
   }
