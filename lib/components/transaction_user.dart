@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import '../models/transaction.dart';
@@ -28,6 +30,22 @@ class _TransactionUserState extends State<TransactionUser> {
       date: DateTime.now(),
     ),
   ];
+
+  _addTransaction(String title, double value) {
+    final newTransaction = Transaction(
+      id: Random().nextDouble().toString(),
+      title: title,
+      value: value,
+      date: DateTime.now(),
+    );
+
+    @override
+    void setState(VoidCallback fn) {
+      // TODO: implement setState
+      super.setState(fn);
+      _transaction.add(newTransaction);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
