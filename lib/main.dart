@@ -13,7 +13,30 @@ void main() => runApp(ExpensesApp());
 class ExpensesApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: MyHomePage());
+    final ThemeData tema = ThemeData();
+    return MaterialApp(
+      home: MyHomePage(),
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.green)
+            .copyWith(secondary: Colors.green[400]),
+        fontFamily: 'Quicksand',
+        textTheme: tema.textTheme.copyWith(
+          titleLarge: const TextStyle(
+            fontFamily: 'OpenSans',
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+        ),
+        appBarTheme: const AppBarTheme(
+          titleTextStyle: TextStyle(
+            fontFamily: 'OpenSans',
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -23,19 +46,19 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final _transaction = [
-    Transaction(
-      id: 't1',
-      title: 'novo tenis de corrida',
-      value: 310.76,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 't2',
-      title: 'Conta de luz',
-      value: 670.89,
-      date: DateTime.now(),
-    ),
+  final List<Transaction> _transaction = [
+    /*Transaction(
+          id: 't1',
+          title: 'novo tenis de corrida',
+          value: 310.76,
+          date: DateTime.now(),
+        ),
+        Transaction(
+          id: 't2',
+          title: 'Conta de luz',
+          value: 670.89,
+          date: DateTime.now(),
+        ),*/
   ];
 
   _addTransaction(String title, double value) {
@@ -65,7 +88,9 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Despesas Pessoais"),
+        title: const Text(
+          "Despesas Pessoais",
+        ),
         actions: [
           IconButton(
             onPressed: () => _openTransactionFormModal(context),
@@ -80,13 +105,10 @@ class _MyHomePageState extends State<MyHomePage> {
           // mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(
-              //width: double.infinity,
-              child: const Card(
-                color: Colors.blueAccent,
-                elevation: 8,
-                child: Text('Grafico'),
-              ),
+            const Card(
+              color: Color.fromARGB(255, 165, 214, 167),
+              elevation: 8,
+              child: Text('Grafico'),
             ),
             Transaction_list(_transaction),
           ],
@@ -94,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _openTransactionFormModal(context),
-        child: Icon(
+        child: const Icon(
           Icons.add_circle_outline_sharp,
           size: 50,
         ),
