@@ -4,6 +4,7 @@ import 'dart:math';
 
 import '/models/transaction.dart';
 
+import 'components/chart.dart';
 import 'components/transaction_list.dart';
 
 import 'components/transaction_form.dart';
@@ -47,19 +48,35 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _transaction = [
-    /*Transaction(
-          id: 't1',
-          title: 'novo tenis de corrida',
-          value: 310.76,
-          date: DateTime.now(),
-        ),
-        Transaction(
-          id: 't2',
-          title: 'Conta de luz',
-          value: 670.89,
-          date: DateTime.now(),
-        ),*/
+    Transaction(
+      id: 't0',
+      title: 'novo tenis de basquete',
+      value: 700.76,
+      date: DateTime.now().subtract(Duration(days: 30)),
+    ),
+    Transaction(
+      id: 't1',
+      title: 'novo tenis de corrida',
+      value: 310.76,
+      date: DateTime.now().subtract(Duration(days: 3)),
+    ),
+    Transaction(
+      id: 't2',
+      title: 'Conta de luz',
+      value: 670.89,
+      date: DateTime.now().subtract(Duration(days: 4)),
+    ),
   ];
+
+  List<Transaction> get _recentTransactions {
+    return _transaction.where((tr) {
+      return tr.date.isAfter(
+        DateTime.now().subtract(
+          const Duration(days: 7),
+        ),
+      );
+    }).toList();
+  }
 
   _addTransaction(String title, double value) {
     final newTransaction = Transaction(
@@ -105,18 +122,14 @@ class _MyHomePageState extends State<MyHomePage> {
           // mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Card(
-              color: Color.fromARGB(255, 165, 214, 167),
-              elevation: 8,
-              child: Text('Grafico'),
-            ),
+            Chart(_recentTransactions),
             Transaction_list(_transaction),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _openTransactionFormModal(context),
-        child: const Icon(
+        child: Icon(
           Icons.add_circle_outline_sharp,
           size: 50,
         ),
