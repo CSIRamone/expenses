@@ -34,48 +34,43 @@ class Transaction_list extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final tr = transactions[index];
                   return Card(
-                    child: Row(
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.symmetric(
-                            horizontal: 15,
-                            vertical: 10,
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(80),
-                            border: Border.all(
-                              color: Colors.greenAccent,
-                              width: 2,
-                            ),
-                          ),
-                          padding: EdgeInsets.all(10),
-                          child: Text(
-                            'R\$ ${tr.value.toStringAsFixed(2)}',
-                            style: const TextStyle(
+                    elevation: 8,
+                    margin: const EdgeInsets.symmetric(
+                      vertical: 8,
+                      horizontal: 5,
+                    ),
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        backgroundColor: Colors.greenAccent.shade700,
+                        radius: 30,
+                        child: Padding(
+                          padding: const EdgeInsets.all(6.0),
+                          child: FittedBox(
+                            child: Text(
+                              'R\$${tr.value}',
+                              style: TextStyle(
+                                color: Colors.red.shade900,
+                                fontSize: 16,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                                color: Colors.greenAccent),
-                          ),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              tr.title,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                  color: Color.fromARGB(255, 28, 222, 35)),
-                            ),
-                            Text(
-                              DateFormat('d MMM y H:m:s').format(tr.date),
-                              style: const TextStyle(
-                                color: Colors.grey,
                               ),
                             ),
-                          ],
+                          ),
                         ),
-                      ],
+                      ),
+                      title: Text(
+                        tr.title,
+                        style: TextStyle(
+                          color: Colors.green.shade900,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
+                      subtitle: Text(
+                        DateFormat('d MMM y H mm ss').format(tr.date),
+                        style: TextStyle(
+                            color: Colors.grey.shade700,
+                            fontWeight: FontWeight.w400),
+                      ),
                     ),
                   );
                 },
