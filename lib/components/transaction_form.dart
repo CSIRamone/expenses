@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class TransactionForm extends StatefulWidget {
   late final void Function(String, double)? onSubmit;
@@ -14,6 +15,8 @@ class _TransactionFormState extends State<TransactionForm> {
 
   final valueController = TextEditingController();
 
+  DateTime? _selectDate;
+
   _submitForm() {
     final title = titleController.text;
     final value = double.tryParse(valueController.text) ?? 0.0;
@@ -22,6 +25,22 @@ class _TransactionFormState extends State<TransactionForm> {
       return;
     }
     widget.onSubmit!(title, value);
+  }
+
+  _showDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2019),
+      lastDate: DateTime.now(),
+    ).then((pickedDate) {
+      if (pickedDate == null) {
+        return;
+      }
+      setState(() {
+        _selectDate = pickedDate;
+      });
+    });
   }
 
   @override
@@ -48,19 +67,23 @@ class _TransactionFormState extends State<TransactionForm> {
                 labelText: 'Valor (R\$)',
               ),
             ),
-            Container(
+            SizedBox(
               height: 70,
               child: Row(
                 children: [
-                  const Text(
-                    'Nenhuma data Selecionada!',
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontSize: 12,
+                  Expanded(
+                    child: Text(
+                      _selectDate == null
+                          ? 'Nenhuma data Selecionada!'
+                          : DateFormat('d MMM y').format(_selectDate!),
+                      style: const TextStyle(
+                        color: Colors.red,
+                        fontSize: 12,
+                      ),
                     ),
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: _showDatePicker,
                     child: const Text(
                       'Selecionar Data',
                       style: TextStyle(
@@ -72,7 +95,7 @@ class _TransactionFormState extends State<TransactionForm> {
                 ],
               ),
             ),
-            Container(
+            SizedBox(
               height: 70,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
