@@ -48,7 +48,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _transaction = [
-    Transaction(
+    /* Transaction(
       id: 't0',
       title: 'novo tenis de basquete',
       value: 700.76,
@@ -89,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
       title: 'Conta de luz 5',
       value: 400.89,
       date: DateTime.now().subtract(Duration(days: 2)),
-    ),
+    ),*/
   ];
 
   List<Transaction> get _recentTransactions {
@@ -102,12 +102,12 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  _addTransaction(String title, double value) {
+  _addTransaction(String title, double value, DateTime date) {
     final newTransaction = Transaction(
       id: Random().nextDouble().toString(),
       title: title,
       value: value,
-      date: DateTime.now(),
+      date: date,
     );
 
     setState(() {
@@ -153,7 +153,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _openTransactionFormModal(context),
-        child: Icon(
+        child: const Icon(
           Icons.add_circle_outline_sharp,
           size: 50,
         ),
