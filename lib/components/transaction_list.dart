@@ -4,23 +4,24 @@ import 'package:intl/intl.dart';
 
 class Transaction_list extends StatelessWidget {
   final List<Transaction> transactions;
+  final void Function(String) onRemove;
 
-  Transaction_list(this.transactions);
+  Transaction_list(this.transactions, this.onRemove);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 540,
+        height: MediaQuery.of(context).size.height * 0.6,
         child: transactions.isEmpty
             ? Column(
                 children: [
-                  SizedBox(height: 80),
+                  const SizedBox(height: 80),
                   Text(
                     'Nenhuma Transação Cadastrada!',
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
-                  SizedBox(height: 60),
-                  Container(
+                  const SizedBox(height: 60),
+                  SizedBox(
                     height: 200,
                     child: Image.asset(
                       'assets/imagens/waiting.png',
@@ -70,6 +71,11 @@ class Transaction_list extends StatelessWidget {
                         style: TextStyle(
                             color: Colors.grey.shade700,
                             fontWeight: FontWeight.w400),
+                      ),
+                      trailing: IconButton(
+                        icon: Icon(Icons.delete),
+                        color: Colors.red.shade200,
+                        onPressed: () => onRemove(tr.id),
                       ),
                     ),
                   );

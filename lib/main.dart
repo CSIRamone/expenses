@@ -47,6 +47,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  bool _showChart = false;
   final List<Transaction> _transaction = [
     /* Transaction(
       id: 't0',
@@ -117,6 +118,12 @@ class _MyHomePageState extends State<MyHomePage> {
     Navigator.of(context).pop();
   }
 
+  _deleteTransaction(String id) {
+    setState(() {
+      _transaction.removeWhere((tr) => tr.id == id);
+    });
+  }
+
   _openTransactionFormModal(BuildContext context) {
     showModalBottomSheet(
         context: context,
@@ -127,37 +134,75 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "Despesas Pessoais",
+    final appBar = AppBar(
+      title: Text(
+        "Despesas Pessoais",
+        style: TextStyle(
+          fontSize: 20 * MediaQuery.of(context).textScaleFactor,
         ),
-        actions: [
-          IconButton(
-            onPressed: () => _openTransactionFormModal(context),
-            icon: Icon(Icons.add_circle_outline_outlined),
-            iconSize: 50,
-            color: Colors.green[900],
-          ),
-        ],
       ),
+      actions: [
+        IconButton(
+          onPressed: () => _openTransactionFormModal(context),
+          icon: Icon(Icons.add),
+          iconSize: 50,
+          color: Colors.green[900],
+        ),
+      ],
+    );
+
+    final availableHeight = MediaQuery.of(context).size.height -
+        appBar.preferredSize.height -
+        MediaQuery.of(context).padding.top;
+
+    return Scaffold(
+      appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           // mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Chart(_recentTransactions),
-            Transaction_list(_transaction),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Exibir gráfico',
+                ),
+                Switch(
+                  value: _showChart,
+                  onChanged: (value) {
+                    setState(() {
+                      _showChart = value;
+                    });
+                  },
+                ),
+              ],
+            ),
+            if (_showChart)
+              SizedBox(
+                height: availableHeight * 0.3,
+                child: Chart(
+                  _recentTransactions,
+                ),
+              ),
+            if (!_showChart)
+              SizedBox(
+                height: availableHeight * 0.7,
+                child: Transaction_list(
+                  _transaction,
+                  _deleteTransaction,
+                ),
+              ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _openTransactionFormModal(context),
         child: const Icon(
-          Icons.add_circle_outline_sharp,
+          Icons.add_circle,
           size: 50,
         ),
-        backgroundColor: Colors.green[900],
+        backgroundColor: Colors.green[200],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
