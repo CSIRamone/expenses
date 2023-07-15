@@ -134,6 +134,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    bool isLandScape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
     final appBar = AppBar(
       title: Text(
         "Despesas Pessoais",
@@ -142,10 +145,21 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       actions: [
+        if (isLandScape)
+          IconButton(
+            onPressed: () {
+              setState(() {
+                _showChart = !_showChart;
+              });
+            },
+            icon: Icon(_showChart ? Icons.list : Icons.pie_chart),
+            iconSize: 30,
+            color: Colors.green[900],
+          ),
         IconButton(
           onPressed: () => _openTransactionFormModal(context),
           icon: Icon(Icons.add),
-          iconSize: 50,
+          iconSize: 30,
           color: Colors.green[900],
         ),
       ],
@@ -162,30 +176,31 @@ class _MyHomePageState extends State<MyHomePage> {
           // mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Exibir gráfico',
-                ),
-                Switch(
-                  value: _showChart,
-                  onChanged: (value) {
-                    setState(() {
-                      _showChart = value;
-                    });
-                  },
-                ),
-              ],
-            ),
-            if (_showChart)
+            /*if (isLandScape)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Exibir gráfico',
+                  ),
+                  Switch(
+                    value: _showChart,
+                    onChanged: (value) {
+                      setState(() {
+                        _showChart = value;
+                      });
+                    },
+                  ),
+                ],
+              ),*/
+            if (_showChart || !isLandScape)
               SizedBox(
-                height: availableHeight * 0.3,
+                height: availableHeight * (isLandScape ? 0.6 : 0.3),
                 child: Chart(
                   _recentTransactions,
                 ),
               ),
-            if (!_showChart)
+            if (!_showChart || !isLandScape)
               SizedBox(
                 height: availableHeight * 0.7,
                 child: Transaction_list(
@@ -199,10 +214,10 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () => _openTransactionFormModal(context),
         child: const Icon(
-          Icons.add_circle,
+          Icons.add,
           size: 50,
         ),
-        backgroundColor: Colors.green[200],
+        backgroundColor: Colors.green[100],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
